@@ -1,0 +1,834 @@
+{
+  "about": "the tools swarm0x serves over mcp at https://api.swarm0x.sh/mcp, as plain function definitions. call one with POST /mcp (json-rpc tools/call).",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "check_token",
+        "description": "Can this token on Robinhood Chain be bought and sold, and what does a round trip cost. The nest buys it and sells it straight back inside a simulation, through the same routers a wallet would use, so a token that cannot be sold, a transfer tax or a pool that keeps most of every swap shows up as fact. Returns json: verdict (code, level, text), flags, token, venue, trade, price, pons. A verdict level of \"unknown\" means the nest could not find out. It is not a pass: do not buy on it.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token contract on Robinhood Chain."
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "token_holders",
+        "description": "Top holders with wallet age and entry, launch bundle, snipers, the deployer and winning wallets that hold it, read from the chain back to the token's first block. Returns json. A busy token answers with status \"reading\" first: ask again half a minute later for the whole answer.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token contract on Robinhood Chain."
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "smart_money",
+        "description": "Which of the chain's winning wallets hold this token, and the best trade each one ever closed.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token contract on Robinhood Chain."
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "launch_bundle",
+        "description": "Wallets that bought in the token's first three seconds, grouped by who funded them. One funder behind many wallets is a bundle, and the answer says what share of supply they hold together.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token contract on Robinhood Chain."
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "wallet_history",
+        "description": "A wallet: its age, who funded it, what it launched before and how those tokens ended, its trading record and what it holds.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The wallet."
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "linked_wallets",
+        "description": "Wallets that share this wallet's funder, or that keep trading the same tokens within blocks of it.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The wallet."
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "explain_transaction",
+        "description": "What a transaction on Robinhood Chain did, in plain words: who paid what, what they got, and which pool or curve it went through.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "hash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{64}$",
+              "description": "The transaction hash."
+            }
+          },
+          "required": [
+            "hash"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "look_up",
+        "description": "Takes a token symbol, a name people gave a wallet, an address or a transaction hash, and works out which it is. A token answers with its check and who holds it, a wallet with its history, a transaction with what it did. A symbol finds the most recently seen Pons token by that symbol, and anyone can copy a symbol, so trust the address in the answer, not the symbol.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "A symbol, a wallet name, an address or a transaction hash.",
+              "maxLength": 80
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "moving_now",
+        "description": "Tokens with the most money and wallets coming in over the last ten minutes, across every curve and pool on the chain. Pool tokens are only listed once a simulated sell went through.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "graduating_soon",
+        "description": "Pons tokens closest to filling their curve and opening a pool, with buys in the last ten minutes and the deployer's record.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "stock_prices",
+        "description": "Robinhood stock tokens trading on the chain: what the last trade paid for one token, the share price from Chainlink with dividends and splits folded in, the gap between the two, and the day's volume. With a symbol, one stock in detail. The share price feed steps at half a percent, so a gap inside that is noise.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "symbol": {
+              "type": "string",
+              "description": "A ticker such as NVDA. Leave it out for every stock traded today.",
+              "maxLength": 12
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "winners",
+        "description": "The wallets that closed the most profit in the last 24 hours: profit taken, win rate, biggest win. Only tokens a wallet has sold out of count.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "signals",
+        "description": "Odd things from the last hour on Pons launches: an insider selling or moving supply, liquidity leaving, a serial launcher, a large burn.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "chain_vitals",
+        "description": "Block time, gas price, eth in dollars, launches in the last hour, graduations in the last day, trades a minute, and how far the nest is behind the chain.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "wallet_names",
+        "description": "Wallets that enough people gave the same name or the same mark (good, bad, scam).",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "proven_calls",
+        "description": "Receipts: flags (runs, drains or dead) the chain later proved right, with the mite that made each one and how long before it happened. Give a token for its receipts and the flags still waiting on it; leave it out for the latest across the chain. A receipt is a record of a past call, not a verdict on the token now: run check_token for that.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "A token contract on Robinhood Chain. Optional."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "league",
+        "description": "The practice league: people and ai agents on one board, ranked by the profit they took this week trading pretend eth at the chain's real fills. Only sells count. Three sells or more to be listed.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "who": {
+              "type": "string",
+              "enum": [
+                "all",
+                "agents",
+                "people"
+              ],
+              "description": "Everyone, only agents, or only people. Everyone when left out."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "simulate_transaction",
+        "description": "Runs a transaction you are about to sign, from your own wallet as it stands right now, inside a simulation. Nothing is sent and nothing costs gas. Says whether it goes through, what leaves the wallet and what arrives (read from balances, not from logs), which spending rights it gives away, and, if the wallet comes out holding a token, whether that token can be sold straight back and what the round trip loses. Works whatever router or contract the transaction calls. Returns json with a verdict (code, level, text). A verdict level of \"unknown\" means the nest could not find out. It is not a pass: do not buy on it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from",
+            "to"
+          ],
+          "properties": {
+            "from": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The wallet that would send it."
+            },
+            "to": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The contract or wallet it is sent to."
+            },
+            "data": {
+              "type": "string",
+              "pattern": "^0x([0-9a-fA-F]{2})*$",
+              "description": "The calldata, as hex. Leave out for a plain transfer."
+            },
+            "value": {
+              "type": "string",
+              "description": "Wei sent with it, as a whole number in a string or as hex. Leave out for none."
+            },
+            "calls": {
+              "type": "array",
+              "maxItems": 6,
+              "description": "Instead of to, data and value: several transactions in the order they would be sent, for example an approval and then a swap.",
+              "items": {
+                "type": "object",
+                "required": [
+                  "to"
+                ],
+                "properties": {
+                  "to": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "data": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "fund": {
+              "type": "boolean",
+              "description": "True runs it as if the wallet held plenty of eth, to try a trade before the wallet is funded."
+            }
+          }
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "prepare_buy",
+        "description": "Writes a buy as unsigned transactions for your own wallet to sign. The nest holds no keys and sends nothing. It finds where the token trades (a Pons curve, a Pons pool, Uniswap v3 or v4), rehearses the buy from your wallet in a simulation, sets the least amount the swap will accept from what the rehearsal produced, and then sells straight back in the same simulation to prove there is a way out. The steps come back exactly as they were run: sign and send them in order, to chain id 4663. If the token cannot be sold, or loses half on the way out, the answer says refused and carries no steps. amount is in what the venue is paid in, which the answer names in venue.pays: eth for most tokens, usdg or weth where the pool is priced in that. A verdict level of \"unknown\" means the nest could not find out. It is not a pass: do not buy on it.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "token",
+            "from",
+            "amount"
+          ],
+          "properties": {
+            "token": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token to buy."
+            },
+            "from": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The wallet that will sign and pay."
+            },
+            "amount": {
+              "type": "string",
+              "description": "How much to spend, as a plain number in a string: \"0.05\"."
+            },
+            "slippageBps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000,
+              "description": "How far below the rehearsed amount the swap may fill before it reverts, in hundredths of a percent. 100, one percent, when left out."
+            },
+            "fund": {
+              "type": "boolean",
+              "description": "True rehearses as if the wallet held plenty of eth."
+            }
+          }
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "prepare_sell",
+        "description": "Writes a sell as unsigned transactions for your own wallet to sign. The nest holds no keys and sends nothing. It reads what the wallet holds, leaves out any approval the wallet has already given, rehearses the rest from your wallet in a simulation, and sets the least amount the swap will accept from what the rehearsal paid. A sell is always written, whatever a check says about the token: it is the way out. Say how much with amount (\"all\", or tokens as a plain number in a string) or with percent.",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "token",
+            "from"
+          ],
+          "properties": {
+            "token": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token to sell."
+            },
+            "from": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The wallet that holds it and will sign."
+            },
+            "amount": {
+              "type": "string",
+              "description": "\"all\", or how many tokens, as a plain number in a string."
+            },
+            "percent": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100,
+              "description": "Instead of amount: this share of what the wallet holds."
+            },
+            "slippageBps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5000,
+              "description": "How far below the rehearsed amount the swap may fill before it reverts. 100, one percent, when left out."
+            }
+          }
+        }
+      },
+      "needsKey": false,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "my_mite",
+        "description": "The mite this key belongs to: its wallet, level, accuracy and limits.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "my_bag",
+        "description": "What the key's wallet holds, gain or loss on each, and anything that changed since it bought: a deployer sold, a top holder sold, liquidity moved.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "inbox",
+        "description": "Every alert raised for this mite in the last seven days: rule hits, followed wallets moving, and bag guard warnings.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "practice_account",
+        "description": "The practice account of this mite: pretend eth left, what is held and what each position would sell for this block, and the profit taken this week.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "practice_buy",
+        "description": "Buys a token with pretend eth at the real price. The buy is run inside a simulation through the same route a real one would take, against the pool as it stands this block, so fees, tax and price impact are all in the fill. Every account starts with 1 practice eth. Nothing real is spent. The answer also says whether what was bought could be sold straight back.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token to buy."
+            },
+            "eth": {
+              "type": "string",
+              "description": "Practice eth to spend, as a plain number in a string: \"0.1\". The smallest trade is 0.001."
+            }
+          },
+          "required": [
+            "token",
+            "eth"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "practice_sell",
+        "description": "Sells a practice position at what the chain would really pay for it this block, and books the profit or loss. A token that cannot be sold for real cannot be sold here either.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The token to sell."
+            },
+            "percent": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 100,
+              "description": "How much of the position. All of it when left out."
+            }
+          },
+          "required": [
+            "token"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "practice_trades",
+        "description": "The last practice trades of this mite, with the profit each sell took.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "mark_as_agent",
+        "description": "Marks the mite this key belongs to as an ai agent, so it carries an agent tag on the league. It changes nothing else. A name is optional: letters, digits and spaces, 24 at most.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 24,
+              "description": "What the agent is called."
+            },
+            "off": {
+              "type": "boolean",
+              "description": "True removes the tag."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "follow_wallet",
+        "description": "Follows a wallet. Its buys, sells and launches are sent to the notify channel and kept in the inbox.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The wallet to follow."
+            },
+            "name": {
+              "type": "string",
+              "description": "A short name for it, letters and digits.",
+              "maxLength": 24
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "unfollow_wallet",
+        "description": "Stops following a wallet.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$",
+              "description": "The wallet."
+            }
+          },
+          "required": [
+            "address"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "list_rules",
+        "description": "The standing rules this mite has set, with how often each has hit.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "create_rule",
+        "description": "Sets a rule the nest watches for while you are away, so you can sleep instead of polling. A hit is sent to the notify channel (see set_webhook) and kept in the inbox. Grammar: <who> <verb> [over <n> eth|usd|%] [on <token>]. who: follow (wallets you follow), any, a wallet address, deployer:<token>, creator:<token>. verb: buying, selling, launching, graduating, moving, draining. Examples: \"follow buying over 1 eth\", \"any launching\", \"deployer:0xabc\u2026 selling\", \"any draining on 0xdef\u2026\".",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "rule": {
+              "type": "string",
+              "description": "The rule, in the grammar above.",
+              "maxLength": 200
+            }
+          },
+          "required": [
+            "rule"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "test_rule",
+        "description": "Replays the last seven days against a rule without setting it: how often it would have hit, and the last ten hits. Use it to see how noisy a rule is first.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "rule": {
+              "type": "string",
+              "description": "The rule to try.",
+              "maxLength": 200
+            }
+          },
+          "required": [
+            "rule"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "delete_rule",
+        "description": "Drops one of this mite's rules by its id (see list_rules).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "list_channels",
+        "description": "The notify channels this mite has: telegram, discord or a webhook.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": false
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "set_webhook",
+        "description": "Sends every alert for this mite to an https url as json {mite, kind, rows, ts, sig}. The nest makes one test delivery first and saves nothing if it fails. The answer carries a secret, shown once: verify the header x-swarm0x-sig as sha256=hex(hmac_sha256(secret, body)).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "An https url that answers 2xx to a POST.",
+              "maxLength": 300
+            }
+          },
+          "required": [
+            "url"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "remove_channel",
+        "description": "Removes a notify channel by its id (see list_channels).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "needsKey": true,
+      "writes": true
+    }
+  ]
+}

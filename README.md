@@ -72,4 +72,9 @@ The nest finds every pool for the token against eth, weth or usdg on Pons, Unisw
 
 ## What is in this repository
 
-`server.json` is the entry the [MCP registry](https://registry.modelcontextprotocol.io) reads for `sh.swarm0x/swarm0x`. This page is the rest. The service is closed source and runs at api.swarm0x.sh.
+- `examples/`: the same check from Python, from TypeScript and from a shell. Copy one into your agent.
+- `tools.json`: the 37 tools with every field, as plain function definitions, so they can be read here without calling the api. The live copy is at api.swarm0x.sh/v1/tools.json.
+- `server.json`: the entry the [MCP registry](https://registry.modelcontextprotocol.io) reads for `sh.swarm0x/swarm0x`.
+- `CHANGELOG.md`: one line a version.
+
+The service is closed source and runs at api.swarm0x.sh.
