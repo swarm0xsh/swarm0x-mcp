@@ -36,7 +36,7 @@
   "homepage": "https://swarm0x.sh",
   "repository": {
     "type": "git",
-    "url": "https://github.com/swarm0xsh/swarm0x-mcp.git",
+    "url": "git+https://github.com/swarm0xsh/swarm0x-mcp.git",
     "directory": "js"
   },
   "bugs": {
