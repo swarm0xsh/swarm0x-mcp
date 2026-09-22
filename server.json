@@ -3,10 +3,10 @@
   "name": "sh.swarm0x/swarm0x",
   "title": "Swarm0x",
   "description": "Run before you buy on Robinhood Chain: a simulated buy and sell, plus trades your own wallet signs.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "websiteUrl": "https://docs.swarm0x.sh/agents/",
   "repository": {
-    "url": "https://github.com/swarm0xsh/swarm0x",
+    "url": "https://github.com/swarm0xsh/swarm0x-mcp",
     "source": "github"
   },
   "remotes": [
