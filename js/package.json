@@ -12,17 +12,36 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
-  "engines": {"node": ">=18"},
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && node --test test/*.test.mjs",
-    "prepublishOnly": "npm run build"
+    "test": "tsc -p tsconfig.json && node --test test/*.test.mjs"
   },
-  "keywords": ["robinhood-chain", "mcp", "token", "honeypot", "simulation", "uniswap", "pons", "agent"],
+  "keywords": [
+    "robinhood-chain",
+    "mcp",
+    "token",
+    "honeypot",
+    "simulation",
+    "uniswap",
+    "pons",
+    "agent"
+  ],
   "homepage": "https://swarm0x.sh",
-  "repository": {"type": "git", "url": "https://github.com/swarm0xsh/swarm0x-mcp.git", "directory": "js"},
-  "bugs": {"url": "https://github.com/swarm0xsh/swarm0x-mcp/issues"},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swarm0xsh/swarm0x-mcp.git",
+    "directory": "js"
+  },
+  "bugs": {
+    "url": "https://github.com/swarm0xsh/swarm0x-mcp/issues"
+  },
   "author": "swarm0x",
   "devDependencies": {
     "@types/node": "^22.10.2",
