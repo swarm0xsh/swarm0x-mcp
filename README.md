@@ -16,6 +16,19 @@ The MCP server is at `https://api.swarm0x.sh/mcp`. Streamable http, plain json, 
 {"mcpServers": {"swarm0x": {"url": "https://api.swarm0x.sh/mcp"}}}
 ```
 
+Or install a client. Both are one class with no dependencies, and both are in this repository.
+
+```sh
+npm install swarm0x        # js/
+pip install swarm0x        # python/
+```
+
+```ts
+import {Swarm0x} from 'swarm0x'
+const r = await new Swarm0x().check('0x39065ac5dc2d771276e9f1c913f06d9f74e41e18')
+console.log(r.verdict.text)   // buys and sells go through.
+```
+
 No MCP client? It is http, so curl works:
 
 ```sh
@@ -72,7 +85,8 @@ The nest finds every pool for the token against eth, weth or usdg on Pons, Unisw
 
 ## What is in this repository
 
-- `examples/`: the same check from Python, from TypeScript and from a shell. Copy one into your agent.
+- `js/` and `python/`: the `swarm0x` package for npm and for PyPI. One class over the api and the tools, no dependencies, tests included.
+- `examples/`: the same check from Python, from TypeScript and from a shell, with nothing installed. Copy one into your agent.
 - `tools.json`: the 37 tools with every field, as plain function definitions, so they can be read here without calling the api. The live copy is at api.swarm0x.sh/v1/tools.json.
 - `server.json`: the entry the [MCP registry](https://registry.modelcontextprotocol.io) reads for `sh.swarm0x/swarm0x`.
 - `CHANGELOG.md`: one line a version.

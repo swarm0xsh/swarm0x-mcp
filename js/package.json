@@ -1,0 +1,31 @@
+{
+  "name": "swarm0x",
+  "version": "0.1.0",
+  "description": "Run before you buy on Robinhood Chain. A client for the Swarm0x api and its MCP tools: simulated checks, holders, transactions run before they are signed, trades written for your own wallet.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "engines": {"node": ">=18"},
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "tsc -p tsconfig.json && node --test test/*.test.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["robinhood-chain", "mcp", "token", "honeypot", "simulation", "uniswap", "pons", "agent"],
+  "homepage": "https://swarm0x.sh",
+  "repository": {"type": "git", "url": "https://github.com/swarm0xsh/swarm0x-mcp.git", "directory": "js"},
+  "bugs": {"url": "https://github.com/swarm0xsh/swarm0x-mcp/issues"},
+  "author": "swarm0x",
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

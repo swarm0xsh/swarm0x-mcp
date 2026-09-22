@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swarm0x"
+version = "0.1.0"
+description = "Run before you buy on Robinhood Chain. A client for the Swarm0x api and its MCP tools: simulated checks, holders, transactions run before they are signed, trades written for your own wallet."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{name = "swarm0x"}]
+keywords = ["robinhood-chain", "mcp", "token", "honeypot", "simulation", "uniswap", "pons", "agent"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+Homepage = "https://swarm0x.sh"
+Documentation = "https://docs.swarm0x.sh/agents/"
+Repository = "https://github.com/swarm0xsh/swarm0x-mcp"
+
+[tool.setuptools.packages.find]
+where = ["src"]
